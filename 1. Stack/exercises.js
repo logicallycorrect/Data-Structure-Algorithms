@@ -34,25 +34,24 @@ class Stack {
       this._storage += '*' + value;
     }
     return ++this.length;
-    
+
   }
   pop() {
     this.length -= 1;
-
     let index = 0;
 
    for(let i=this._storage.length-1; i>=0; i--)
    if(this._storage[i]=='*') { index = i; break; }
-
-    this._storage = this._storage.split(0,index);
-    return ;
+   let last = this._storage.slice(index-1,this._storage.length);
+    this._storage = this._storage.slice(0,index);
+    return last;
   }
 
   peek() {
    return this.lastPushedElement;
   }
   size() {
-    return this.size;
+    return this.length;
   }
 }
 

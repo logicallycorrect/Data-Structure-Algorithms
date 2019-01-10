@@ -18,26 +18,98 @@ DO NOT use an array and the native push/shift method in your implementation. Use
 // String implementation
 class QueueString {
   constructor() {
-    this._storage = ""; // String Implementation
+    this._storage = "";
+    this.lastPushedElement = '';
+    this.length = 0;
   }
-  isEmpty() {}
-  enqueue(value) {}
-  dequeue() {}
-  peek() {}
-  size() {}
+  isEmpty() {
+    return this._storage ? false: true
+  }
+
+  push(value) {
+    this.lastPushedElement = value;
+    if(this.size == 0) this._storage = value;
+    else {
+      this._storage = '*' + value + this._storage;
+    }
+    return ++this.length;
+  }
+
+  pop() {
+    this.length -= 1;
+    let index = 0;
+
+   for(let i = 0; i<this._storage.length; i++)
+   if(this._storage[i]=='*') { index = i; break; }
+   let last =  this._storage.slice(0,index);
+
+   this._storage = this._storage.slice(index+1,this._storage.length);
+  
+    return last;
+  }
+
+  peek() {
+   return this.lastPushedElement;
+  }
+  size() {
+    return this.length;
+  }
 }
 
 // Object Implementation
 class QueueObject {
-  constructor() {
-    this._storage = {}; // Object Implementation
+    constructor(max) {
+
+      this.max = max;
+      this.key = 0;
+      this.lastElement = '';
+      this._storage = {};
+    }
+    isEmpty() {
+      return this.key == 0 ? true : false
+    }
+    push(value) {
+  
+      if(this.key == this.max) {
+         console.log('Max capacity already reached');
+         return this.key;}
+  
+      else {
+
+      this.lastElement = value;
+
+      for(let i = this.key; i>0; i-- ) {
+
+        this._storage[i] = this._storage[i-1];
+      }
+
+      this._storage[0] = value;
+      return ++this.key;  
+
+      }
+  
+    }
+
+    pop() {
+      this.key -=1;
+      let last = this._storage[this.key];
+      delete this._storage[this.key];
+      return last;     
+    }
+
+    peek() {
+      return this.lastElement;
+    }
+    size() {
+      return this.key;
+    }
+  
+    contains(value) {
+  
+      return Object.values(this._storage).includes(value)
+  
+    }
   }
-  isEmpty() {}
-  enqueue(value) {}
-  dequeue() {}
-  peek() {}
-  size() {}
-}
 
 /*
 Implement all above methods using Object data type
